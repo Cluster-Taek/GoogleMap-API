@@ -1,6 +1,5 @@
 package com.cookandroid.p2016314024_07;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.os.AsyncTask;
@@ -9,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FragMap extends Fragment {
+
     public static FragMap newInstance() {
         return new FragMap();
     }
@@ -32,38 +31,31 @@ public class FragMap extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstaceState) {
         View view = inflater.inflate(R.layout.fragment_frag_map, null);
-        Button button1 = (Button)view.findViewById(R.id.button);
+        List<MapData> mapData = new ArrayList<MapData>();
+        try {
+            String rst = String.valueOf(new Task().execute().get());
+            JSONObject json2 = new JSONObject(rst);
+            JSONArray jArr = json2.getJSONArray("List");
 
-        button1.setOnClickListener(new View.OnClickListener() {
-            List<MapData> mapData = new ArrayList<MapData>();
-            @Override
-            public void onClick(View v) {
-                try {
-                    String rst = String.valueOf(new Task().execute().get());
-                    JSONObject json = new JSONObject(rst);
-                    JSONArray jArr = json.getJSONArray("List");
-
-                    int mapId=0;
-                    double latitude = 0;
-                    double longitude = 0;
-                    String name="";
-                    String image="";
-                    for (int i = 0; i < jArr.length(); i++) {
-                        json = jArr.getJSONObject(i);
-                        mapId = Integer.parseInt(json.getString("mapId"));
-                        latitude = Double.parseDouble(json.getString("latitude"));
-                        longitude = Double.parseDouble(json.getString("longitude"));
-                        name = json.getString("name");
-                        image = json.getString("image");
-                        mapData.add(new MapData(mapId,latitude,longitude, name, image));
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                ((MainPage)getActivity()).replaceFragMap(FragMap2.newInstance(mapData));
+            int mapId = 0;
+            double latitude = 0;
+            double longitude = 0;
+            String name = "";
+            String image = "";
+            for (int i = 0; i < jArr.length(); i++) {
+                json2 = jArr.getJSONObject(i);
+                mapId = Integer.parseInt(json2.getString("mapId"));
+                latitude = Double.parseDouble(json2.getString("latitude"));
+                longitude = Double.parseDouble(json2.getString("longitude"));
+                name = json2.getString("name");
+                image = json2.getString("image");
+                mapData.add(new MapData(mapId, latitude, longitude, name, image));
             }
-        });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ((MainPage)getActivity()).replaceFragMap(FragMap2.newInstance(mapData));
 
         return view;
     }

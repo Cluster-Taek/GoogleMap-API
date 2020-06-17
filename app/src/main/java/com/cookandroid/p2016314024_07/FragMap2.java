@@ -11,6 +11,7 @@ import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -110,9 +111,9 @@ public class FragMap2 extends Fragment implements OnMapReadyCallback {
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sihwa = new LatLng(37.342554, 126.735857);
-        mMap.addMarker(new MarkerOptions().position(sihwa).title("시화산업단지"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sihwa));
+        LatLng seoul = new LatLng(37.3424128,126.7269632);
+        mMap.addMarker(new MarkerOptions().position(seoul).title("서울시청"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(seoul));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomControlsEnabled(true);
@@ -132,13 +133,12 @@ public class FragMap2 extends Fragment implements OnMapReadyCallback {
             uiSettings.setMyLocationButtonEnabled(true);
         }
 
-        /*mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                //Toast.makeText(getActivity(),marker.getTitle(),Toast.LENGTH_SHORT).show();
-                ((Main4Activity)getActivity()).replaceFragment(Frag3.newInstance(marker.getTitle(), marker.getSnippet()));
+                ((MainPage)getActivity()).replaceFragInformation(FragInform.newInstance(marker.getTitle(), marker.getSnippet()));
                 return false;
             }
-        });*/
+        });
     }
 }

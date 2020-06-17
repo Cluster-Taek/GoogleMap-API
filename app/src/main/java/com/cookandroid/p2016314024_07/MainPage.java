@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.view.Window;
 
 public class MainPage extends AppCompatActivity {
 
@@ -19,7 +20,7 @@ public class MainPage extends AppCompatActivity {
         setContentView(R.layout.activity_main_page);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.content_map, FragMap.newInstance());
-        fragmentTransaction.add(R.id.content_information, FragInform.newInstance()).commit();
+        fragmentTransaction.add(R.id.content_information, FragInform.newInstance("none",null)).commit();
 
     }
     public void replaceFragMap(Fragment fragment) {
