@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.PermissionChecker;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -64,14 +65,20 @@ public class Main2Activity extends AppCompatActivity implements OnMapReadyCallba
                 map.addGroundOverlay(videoMarks);
             }
         });
-        seoul = map.addMarker(new MarkerOptions().position(SEOUL).title("서울"));
+        seoul = map.addMarker(new MarkerOptions().position(SEOUL).title("서울").snippet("도시"));
+        incheon = map.addMarker(new MarkerOptions().position(INCHEON).title("인천").snippet("도시"));
         //here = map.addMarker(new MarkerOptions().position(myPosition).title("여기"));
-        incheon = map.addMarker(new MarkerOptions().position(INCHEON).title("인천").snippet("항구").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher)));
         map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
                 LatLng latLng = marker.getPosition();
-                Toast.makeText(Main2Activity.this, "위도:" + latLng.latitude + "경도:" + latLng.longitude, Toast.LENGTH_SHORT).show();
+                String title = marker.getTitle();
+                Intent intent = new Intent(Main2Activity.this,Main3Activity.class);
+                intent.putExtra("lat",latLng.latitude);
+                intent.putExtra("lng",latLng.longitude);
+                intent.putExtra("title", title);
+                startActivity(intent);
+                //Toast.makeText(Main2Activity.this, "위도:" + latLng.latitude + "경도:" + latLng.longitude, Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
