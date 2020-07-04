@@ -6,6 +6,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -26,10 +28,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.Context.LOCATION_SERVICE;
+
 public class FragMap2 extends Fragment implements OnMapReadyCallback {
 
     GoogleMap mMap;
     private MapView mapView = null;
+    LatLng myPosition;
+    private static final int PERMISSION_REQUEST_CODE = 1;
 
     public static FragMap2 newInstance(List<MapData> mapData) {
         FragMap2 fragment = new FragMap2();
@@ -49,6 +55,7 @@ public class FragMap2 extends Fragment implements OnMapReadyCallback {
         View view = inflater.inflate(R.layout.fragment_frag_map2,  null);
         mapView = (MapView)view.findViewById(R.id.map);
         mapView.getMapAsync(this);
+
 
         return view;
     }
@@ -110,7 +117,6 @@ public class FragMap2 extends Fragment implements OnMapReadyCallback {
 
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
         LatLng seoul = new LatLng(37.3424128,126.7269632);
         mMap.addMarker(new MarkerOptions().position(seoul).title("서울시청"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(seoul));
@@ -123,7 +129,7 @@ public class FragMap2 extends Fragment implements OnMapReadyCallback {
 
         for (MapData data : list) {
             LatLng latlng = new LatLng(data.getLatitude(), data.getLongitude());
-            mMap.addMarker(new MarkerOptions().snippet(data.getImage()).position(latlng).title(data.getName())
+            mMap.addMarker(new MarkerOptions().snippet("영업 중").position(latlng).title(data.getName())
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_icon)));
         }
 
